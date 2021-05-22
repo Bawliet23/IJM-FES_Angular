@@ -1,0 +1,20 @@
+td,th{
+  text-align: center;
+}
+
+td input{
+  font-size: 14px;
+  padding: 10px 15px;
+  width: 71%;
+  border-radius: 0;
+  height: 35px !important;
+  margin: 0 auto;
+  position: relative;
+  top: -1px;
+}
+
+.btn-add {
+  margin-bottom: 25px;
+  float: right;
+  margin-top: 40px;
+}

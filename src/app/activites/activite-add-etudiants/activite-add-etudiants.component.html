@@ -1,0 +1,101 @@
+<!-- Modal -->
+<div class="modal fade" id="checkboxModel" tabindex="-1" role="dialog" aria-labelledby="checkboxModel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="checkboxModelLabel">êtes-vous sûre ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{activite.type=='individu' ? targetcheckBox?.checked==true ? 'cette activité est individuelle, Voulez-vous changer l\'étudiant ?' : 'cette activité est individuelle, Voulez-vous supprimer l\'étudiant de cette activité ?' :
+        targetcheckBox?.checked==true ? 'Voulez-vous ajouter cet étudiant à cette activité ?' : 'Voulez-vous supprimer cet étudiant de cette activité ?' }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="targetcheckBox.checked=!targetcheckBox.checked" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" (click)="checkBoxChange(null,true)" data-dismiss="modal" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="etudiant_list_sec section">
+  <div class="section-body">
+    <div class="float-right">
+      <form>
+        <div class="input-group">
+          <input type="text" class="form-control search-inpt" #searchInput placeholder="Search">
+          <div class="input-group-append">
+            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <h2 class="section-title">L'ajout des étudiants dans l'activité {{activite?.description}}</h2>
+    <p class="section-lead">description</p>
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <tbody><tr>
+                  <th></th>
+                  <th>photo/nom</th>
+                  <th>age</th>
+                  <th>type</th>
+                  <th>adresse</th>
+                </tr>
+                <tr *ngFor="let etudiant of etudiants;let i=index">
+                  <td>
+                    <div class="custom-checkbox custom-control">
+                      <input type="checkbox" data-checkboxes="mygroup" (change)="checkBoxChange($event)" [value]="etudiant.id" class="custom-control-input" [id]="'checkbox-'+etudiant.id">
+                      <label data-toggle="modal" data-target="#checkboxModel" [htmlFor]="'checkbox-'+etudiant.id" class="custom-control-label">&nbsp;</label>
+                    </div>
+                  </td>
+                  <td class="photo_td">
+                    <a href="#">
+                      <img height="35px" width="35px" alt="image" [src]="etudiant.photo ? etudiantService.url+'/photo/'+etudiant.id : 'assets/img/avatar/avatar-4.png'" class="rounded-circle" data-toggle="title" title=""> <div class="d-inline-block ml-1">{{etudiant.nom }} {{etudiant.prenom}}</div>
+                    </a>
+                    <div class="table-links">
+                      <a href="#" [routerLink]="'/etudiants/'+etudiant.id">View</a>
+                      <div class="bullet"></div>
+                      <a href="#" [routerLink]="'/etudiants/'+etudiant.id">Edit</a>
+                      <div class="bullet"></div>
+                      <a href="#" [routerLink]="'/etudiants/'+etudiant.id" class="text-danger">Supprimer</a>
+                    </div>
+                  </td>
+                  <td>
+                    {{etudiant.age}}
+                  </td>
+                  <td>
+                    {{etudiant.type.nom}}
+                  </td>
+                  <td>{{etudiant.adresse}}</td>
+                  <!--<td>
+                    <span *ngFor="let paiment of etudiant.paiments" class="text-success">
+                      <span *ngFor="let m of paiment?.mois">{{m.annee.nom +" "+ m?.nom}},</span>
+                    </span>
+                  </td>-->
+                </tr>
+                </tbody></table>
+            </div>
+          </div>
+          <div class="card-footer text-right">
+            <nav class="d-inline-block">
+              <ul class="pagination mb-0">
+                <li [class]="this.page>0 ? 'page-item' :'page-item  disabled'">
+                  <a (click)="changePage('prev',null)" class="page-link" tabindex="1"><i class="fas fa-chevron-left"></i></a>
+                </li>
+                <li (click)="changePage(null,i)" *ngFor="let p of pages;let i=index" [class]="i==this.page ? 'page-item active' : 'page-item'"><a class="page-link">{{[i+1]}}</a></li>
+                <li [class]="this.page==this.pages?.length-1 ? 'page-item disabled' :'page-item'">
+                  <a (click)="changePage('next',null)" class="page-link"><i class="fas fa-chevron-right"></i></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

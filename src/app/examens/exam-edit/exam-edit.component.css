@@ -1,0 +1,15 @@
+.edit_btns{
+  text-align: right;
+  margin-top: 15px;
+}
+
+.edit_btns .btn-danger{
+  margin-left: 15px;
+}
+
+.flag-file{
+  font-size: 36px;
+  color: #4CAF50;
+  margin-top: 0px;
+  margin-left: 15px;
+}

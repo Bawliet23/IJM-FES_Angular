@@ -1,0 +1,89 @@
+<div *ngIf="checkBox.id!=null && checkBox.attribue==false && checkBox.prbl!=null" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="checkBox.prbl==false" class="modal-title text-danger" id="exampszleModalLabel">salle occupée</h5>
+        <button (click)="checkBox.id = null;checkBox.attribue=null" type="button" (click)="model=false" class="close" data-dismiss="modal" aria-label="Close">
+          <span  aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="form-group row mb-4">
+          <label class="col-form-label text-md-left col-12 col-md-6 col-lg-3">les professeurs disponibles</label>
+          <div class="col-sm-12 col-md-6">
+            <select [(ngModel)]="selectedProf" name="prof" class="form-control selectric">
+              <option *ngFor="let prof of freeProfs" [value]="prof.cin">{{prof.nom+" "+prof.prenom}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button (click)="checkBox.id = null;checkBox.attribue=null" type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
+        <button (click)="addProf();checkBox.id = null;checkBox.attribue=null" type="button" data-dismiss="modal" class="btn btn-success">ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pour supprimer une demiHeure -->
+<div class="modal" *ngIf="checkBox.id!=null && checkBox.attribue==true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="examplsseModalLabel"><span style="font-size: 16px">Le prof : <span class="bg-warning text-white">{{checkBox.prof}}</span></span></h5>
+        <button (click)="checkBox.id = null;checkBox.attribue=null" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span  aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous supprimmer cet horaire?
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="checkBox.id = null;checkBox.attribue=null" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" (click)="deleteDemiHeure();checkBox.id = null;checkBox.attribue=null" data-dismiss="modal" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="add_horaire_to_activite section">
+  <div class="section-body">
+    <h2 class="section-title"> Activité : {{nomActivite}}</h2>
+    <p class="section-lead"><span style="background: #1C3FAA" class="flags"></span> attribué  <span style="background: #4CAF50" class="flags"></span> libre</p>
+    <div *ngIf="success" class="alert alert-success alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{success}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-striped table-md">
+                <tbody>
+                <tr>
+                  <th>Heure</th>
+                  <th *ngFor="let jour of jours">{{jour.nom}}</th>
+                </tr>
+                <tr *ngFor="let demiHeure of demiHeurs;let i=index">
+                  <td>{{demiHeure.nom}}</td>
+                  <td *ngFor="let j of jours">
+                    <div class="custom-checkbox custom-control">
+                      <input type="checkbox" (click)="checkBoxClicked($event,j.nom,demiHeure.nom,i)" [checked]="isInAttribue(j.nom,demiHeure.nom) || isInProfHoraires(j.nom,demiHeure.nom)" data-checkboxes="mygroup" [value]="j.nom+','+demiHeure.nom" class="custom-control-input" [id]="j.nom+','+demiHeure.nom">
+                      <label [class]="isInProfHoraires(j.nom,demiHeure.nom) ? 'inHoraire custom-control-label' : 'custom-control-label'" [for]="j.nom+','+demiHeure.nom"></label></div>
+                  </td>
+                </tr>
+                </tbody></table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>

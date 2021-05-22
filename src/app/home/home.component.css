@@ -1,0 +1,28 @@
+.salles{
+  margin-top: 23px;
+  margin-left: 26px;
+}
+
+.salles h3{
+  font-weight: bold;
+  margin-top: 21px;
+}
+
+.salle-item{
+  width: 70px;
+  height: 70px;
+  background: #1c3faa;
+  border-radius: 50%;
+  text-align: center;}
+
+.salle-item h6{
+  font-size: 21px;
+  padding-top: 23px;
+  color: #ffffff;
+}
+
+#divChart{
+  display: block;
+  width: 400px;
+  height: 400px;
+}

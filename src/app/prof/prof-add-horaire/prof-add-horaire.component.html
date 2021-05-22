@@ -1,0 +1,54 @@
+<!-- Modal pour supprimer une demiHeure -->
+<div class="modal" *ngIf="checkBox.target!=null && checkBox.attribue==true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="examplsseModalLabel"><span style="font-size: 16px">L'activité : <span class="bg-warning text-white">{{checkBox.activite}}</span></span></h5>
+        <button (click)="checkBox.target = null;checkBox.attribue=null" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span  aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous continuer?
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="checkBox.target = null;checkBox.attribue=null" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" (click)="deleteHoraire(checkBox.target.value,checkBox.target);checkBox.target = null;checkBox.attribue=null" data-dismiss="modal" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="add_horaire_to_activite section">
+  <div class="section-body">
+    <h2 class="section-title">les horaires du professeur <span  class="badge badge-light">{{prof?.nom+" " + prof?.prenom}}</span></h2>
+    <p class="section-lead"><span style="background: #F6003C" class="flags"></span> occupé  <span style="background: #4CAF50" class="flags"></span> libre</p>
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-striped table-md">
+                <tbody>
+                <tr>
+                  <th>Heure</th>
+                  <th *ngFor="let jour of jours">{{jour.nom}}</th>
+                </tr>
+                <tr *ngFor="let demiHeure of demiHeurs">
+                  <td>{{demiHeure.nom}}</td>
+                  <td *ngFor="let j of jours">
+                    <div class="custom-checkbox custom-control">
+                      <input  type="checkbox" (change)="checkBoxChange($event,j.nom,demiHeure.nom)" [checked]="isAttribue(j.nom,demiHeure.nom) ||isFree(j.nom,demiHeure.nom)" data-checkboxes="mygroup" [value]="j.nom+','+demiHeure.nom" class="custom-control-input" [id]="j.nom+','+demiHeure.nom">
+                      <label [class]="isAttribue(j.nom,demiHeure.nom) ? 'attribue custom-control-label' : 'inHoraire custom-control-label'" [for]="j.nom+','+demiHeure.nom"></label></div>
+                  </td>
+                </tr>
+                </tbody></table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>

@@ -1,0 +1,51 @@
+input[type='checkbox']{
+  width: 19px !important;
+  height: 19px !important;
+  margin-left: 4px !important;
+}
+
+.custom-checkbox .custom-control-label::before {
+  border-radius: .25rem;
+  width: 19px;
+  height: 19px;
+  position: relative;
+  top: -1px;
+  margin-left: 6px;
+}
+
+.custom-control-label::after {
+  position: absolute;
+  top: .25rem;
+  left: -1.5rem;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  content: "";
+  background: no-repeat 50%/50% 50%;
+  width: 19px;
+  height: 19px;
+  top: -1px;
+  margin-left: 6px;
+}
+
+
+.custom-control-input:checked~.inHoraire::before {
+  color: #fff;
+  background-color: #4CAF50 !important;
+  border: #4CAF50 !important;
+}
+
+.custom-control-input:checked~.attribue::before {
+  color: #fff;
+  background-color: #f6003c !important;
+  border: #f6003c !important;
+}
+
+.modal{
+  display: block !important;
+}
+
+.flags{
+  margin: 0 10px;
+  padding: 0px 19px;
+}

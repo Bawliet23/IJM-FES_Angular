@@ -1,0 +1,74 @@
+.prof_details .list{
+  margin: 20px 0px;
+}
+
+.prof_details .list h4{
+  width: 35%;
+  padding: 5px 0px 5px 9px;
+  font-weight: 555;
+  margin: 0;
+}
+
+.list-niveaux-matieres h4{
+  width: 100% !important;
+  height: 46px;
+  padding-top: 11px !important;
+  position: relative;
+}
+
+.form-group img{
+  width: 150px;
+  height: 150px;
+  margin-left: 20px;
+}
+
+
+.add-matiere{
+  position: absolute; right: 10px; border-radius: 0; top: 5px;
+}
+
+.modal{
+  z-index: 15!important;
+}
+
+.mat-form-field-infix {
+  border-top: 0 !important;
+}
+
+.nv-label{
+  left: 19px !important;
+  position: relative !important;
+  top: 13px !important;
+}
+
+.multiSelect{
+  border: 1px solid #eee;
+  padding: 8px;
+  margin: 0;
+  width: 247px;
+  float: left;
+  position: relative;
+  left: -34px;
+  top: -7px;
+  height: calc(2.25rem + 6px);
+  border-radius: 4px;
+}
+
+.delete-nv-icon{
+  font-size: 14px;
+  margin-top: 8px;
+  margin-left: 16px;
+  cursor: pointer;
+}
+
+.ListJours .btn-success{
+  display: block;
+  text-align: left;
+  border-radius: 0;
+  margin-bottom: 16px;
+  background: #3BB557;
+  border: none;
+  cursor: pointer;
+  box-shadow: none;
+}
+

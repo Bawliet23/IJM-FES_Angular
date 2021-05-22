@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+    <div class="card card-statistic-1">
+      <div class="card-icon bg-primary">
+        <i class="far fa-user"></i>
+      </div>
+      <div class="card-wrap">
+        <div class="card-header">
+          <h4>Les étudiants</h4>
+        </div>
+        <div class="card-body">
+          {{stats?.etudiants}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+    <div class="card card-statistic-1">
+      <div class="card-icon bg-danger">
+        <i class="far fa-newspaper"></i>
+      </div>
+      <div class="card-wrap">
+        <div class="card-header">
+          <h4>Les activités</h4>
+        </div>
+        <div class="card-body">
+          {{stats?.activites}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+    <div class="card card-statistic-1">
+      <div class="card-icon bg-warning">
+        <i class="far fa-file"></i>
+      </div>
+      <div class="card-wrap">
+        <div class="card-header">
+          <h4>Les paiements</h4>
+        </div>
+        <div class="card-body">
+          {{stats?.paiements}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+    <div class="card card-statistic-1">
+      <div class="card-icon bg-success">
+        <i class="fas fa-circle"></i>
+      </div>
+      <div class="card-wrap">
+        <div class="card-header">
+          <h4>Les matiéres</h4>
+        </div>
+        <div class="card-body">
+          {{stats?.matieres}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="salles">
+<div class="salles">
+  <div class="row">
+    <div class="col-md-5 col-12">
+      <h3>maintenant</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered table-md">
+          <tbody>
+          <tr>
+            <th>les salle libres</th>
+            <th></th>
+          </tr>
+          <tr *ngFor="let slL of salles.sallesLibres">
+            <td ><div class="badge badge-success">{{slL.nom}}</div></td>
+          </tr>
+          <tr>
+            <th>les salles occupées</th>
+            <th></th>
+          </tr>
+          <tr *ngFor="let slO of salles.sallesOccupees">
+            <td >
+              <div class="badge badge-danger">{{slO.nom}}</div>
+            </td>
+            <td><a href="" [routerLink]="'/activites/'+slO.activite" class="btn btn-light">Details</a></td>
+          </tr>
+          </tbody></table>
+      </div>
+
+    </div>
+    <div class="col-md-7 col-12">
+      <app-caisse></app-caisse>
+    </div>
+  </div>
+</div>
+</ng-container>

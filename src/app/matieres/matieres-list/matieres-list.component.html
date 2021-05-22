@@ -1,0 +1,68 @@
+<div *ngIf="imageClick" class=" chocolat-wrapper" id="chocolat-content-1" style="display: block;">
+  <div class="chocolat-overlay" style="display: block;"></div>
+  <div class="chocolat-loader"></div>
+  <div class="chocolat-content" style="overflow: visible; width: 671px; height: 480px; left: 432.5px; top: 137.2px;">
+    <img class="chocolat-img" [src]="matiereClicked?.photo ? matiereService.url+'/photo/'+matiereClicked.nom : 'assets/img/products/product-5-50.png'"></div>
+  <div class="chocolat-top"><span (click)="imageClick=false" class="chocolat-close"><i class="fas fa-times"></i></span></div>
+  <div class="chocolat-bottom">
+    <span class="chocolat-fullscreen"></span>
+    <span class="chocolat-description">{{matiereClicked.nom}} image</span>
+  </div>
+</div>
+<section class="matieres_list_sec section">
+  <div class="section-body">
+    <div class="float-right">
+      <form>
+        <div class="input-group">
+          <input type="text" class="form-control search-inpt" #searchInput placeholder="Search">
+          <div class="input-group-append">
+            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <h2 class="section-title">La liste des Matières</h2>
+    <p class="section-lead">cliquez sur détails pour plus d'informations</p>
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-striped table-md">
+                <tbody><tr>
+                  <th>photo/nom</th>
+                  <th>description</th>
+                  <th>prix pour enfant</th>
+                  <th>prix  pour adulte</th>
+                  <th>Action</th>
+                </tr>
+                <tr *ngFor="let matiere of matieres">
+                  <td class="photo-td" (click)="imageClick=true;matiereClicked.photo=matiere.photo;matiereClicked.nom=matiere.nom">
+                    <img height="35px" width="35px" alt="image" [src]="matiere.photo ? matiereService.url+'/photo/'+matiere.nom : 'assets/img/products/product-5-50.png'" class="rounded-circle" data-toggle="title" title=""> <div class="d-inline-block ml-1">{{matiere.nom }}</div>
+                  </td>
+                  <td>{{matiere.description}}</td>
+                  <td><div class="badge badge-light">{{matiere.prixEnfant}}</div></td>
+                  <td><div class="badge badge-light">{{matiere.prixAdult}}</div></td>
+                  <td><a [routerLink]="[matiere.nom]" href="#" class="btn btn-success">Details</a></td>
+                </tr>
+                </tbody></table>
+            </div>
+          </div>
+          <div class="card-footer text-right">
+            <nav class="d-inline-block">
+              <ul class="pagination mb-0">
+                <li [class]="this.page>0 ? 'page-item' :'page-item  disabled'">
+                  <a (click)="changePage('prev',null)" class="page-link" tabindex="1"><i class="fas fa-chevron-left"></i></a>
+                </li>
+                <li (click)="changePage(null,i)" *ngFor="let p of pages;let i=index" [class]="i==this.page ? 'page-item active' : 'page-item'"><a class="page-link">{{[i+1]}}</a></li>
+                <li [class]="this.page==this.pages?.length-1 ? 'page-item disabled' :'page-item'">
+                  <a (click)="changePage('next',null)" class="page-link"><i class="fas fa-chevron-right"></i></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

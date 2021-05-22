@@ -1,0 +1,252 @@
+<!-- model pour suprrimer une matiere -->
+<div class="modal fade" id="deleteMatiere" tabindex="-1" role="dialog" aria-labelledby="deleteMatiere" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteMatiereLabel">êtes-vous sûre ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous continuer?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" (click)="deleteMatiere()" data-dismiss="modal" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- model pour suprrimer un niveau -->
+<div class="modal fade" id="deleteNiveau" tabindex="-1" role="dialog" aria-labelledby="deleteNiveau" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteNiveauLabel">êtes-vous sûre ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous continuer?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" data-dismiss="modal" (click)="deleteNvMatiere()" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal pour l'ajout d'une matiere -->
+<div class="modal fade" id="addMatiere" tabindex="-1" role="dialog" aria-labelledby="addMatiere" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="addMatiereLabel">l'ajout d'une matière</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="form-group row mb-4">
+          <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">matière</label>
+          <div class="col-sm-12 col-md-7">
+            <select #m [(ngModel)]="matiere" (change)="selectMatiere(m.value)" name="matiere" class="form-control selectric">
+              <option *ngFor="let matiere of matieres" [value]="matiere.nom">{{matiere.nom}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row mb-4">
+          <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3 nv-label">Les niveaux</label>
+          <div class="col-sm-12 col-md-7">
+            <mat-form-field appearance="none" >
+              <mat-select class="multiSelect"  [formControl]="niveauxSelected" multiple>
+                <mat-option *ngFor="let niveau of niveaux" [value]="niveau.nv">{{niveau.nv}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div style="float: right">
+          <button type="button" style="margin-right: 10px" class="btn btn-secondary" data-dismiss="modal">retour</button>
+          <button data-dismiss="modal" (click)="addMatiere()" type="button" class="btn btn-primary">ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModel" tabindex="-1" role="dialog" aria-labelledby="deleteModel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">êtes-vous sûre ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous continuer?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" (click)="deleteProf()" data-dismiss="modal" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="prof_details section">
+  <div class="section-body">
+    <!-- feedback -->
+    <div *ngIf="error" class="alert alert-danger alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{error}}
+      </div>
+    </div>
+    <div *ngIf="success" class="alert alert-success alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{success}}
+      </div>
+    </div>
+    <!-- feedback -->
+    <div class="row mt-sm-2">
+      <div class="col-12 col-md-12 col-lg-5">
+        <div class="card profile-widget">
+          <div class="profile-widget-header">
+            <div class="profile-widget-items">
+              <div class="profile-widget-item">
+                <div class="profile-widget-item-label">Prénom</div>
+                <div class="profile-widget-item-value">{{prof?.prenom}}</div>
+              </div>
+              <div class="profile-widget-item">
+                <div class="profile-widget-item-label">Nom</div>
+                <div class="profile-widget-item-value">{{prof?.nom}}</div>
+              </div>
+              <div class="profile-widget-item">
+                <div class="profile-widget-item-label">Date de naissance</div>
+                <div class="profile-widget-item-value">{{prof?.dateNaissance| date }}</div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="list-horaies list">
+            <h4>La liste des horaires</h4>
+            <span  *ngIf="showSpinner" class="spinner-border" role="status">
+              <span class="sr-only">Chargement...</span>
+            </span>
+            <div class="table-responsive">
+              <ng-container *ngIf="prof">
+              <div *ngFor="let jour of prof.jours;let i=index" class="ListJours">
+                <div (click)="showHoraireTable(i,jour.nom)"  class="btn btn-success">{{jour.nom}}<span class="indicateur float-right">+</span></div>
+                
+                <table style="display: none" class="table table-bordered horairesInfos table-md">
+                  <tbody>
+                  <tr>
+                    <th>heure</th>
+                    <th>activité</th>
+                    <th>matière</th>
+                    <th>niveau</th>
+                  </tr>
+                  <tr *ngFor="let horaire of jour.horaires">
+                    <td>{{horaire?.startHour}}-{{getEndHour(horaire.startHour,horaire.lastHour)}}</td>
+                    <td>{{horaire?.activite}}</td>
+                    <td>{{horaire?.matiere}}</td>
+                    <td>{{horaire?.niveau}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-container>
+            </div>
+          </div>
+          <hr>
+          <div class="list-niveaux-matieres list">
+            <h4>La liste des matières et ses niveaux <button data-toggle="modal" data-target="#addMatiere" class="btn btn-secondary add-matiere">+</button></h4>
+            <div class="table-responsive">
+              <table class="table table-bordered table-md">
+                <tbody>
+                <tr>
+                  <th>matière</th>
+                  <th>les niveaux</th>
+                  <th></th>
+                </tr>
+                <ng-container *ngIf="prof">
+                <tr *ngFor="let matiere of prof.matieres;let i=index;">
+                  <td>{{matiere.nom}}</td>
+                  <td><h3 *ngFor="let niveau of matiere.niveaux">{{niveau.nv}}<i data-toggle="modal" data-target="#deleteNiveau" (click)="matiereToDelete=matiere;niveauToDelete=niveau" class="text-danger delete-nv-icon fas fa-trash"></i></h3></td>
+                  <td><a data-toggle="modal" data-target="#deleteMatiere" (click)="matiereToDelete=matiere;pos=i" class="text-danger" style="cursor: pointer">supprimer</a> </td>
+                </tr>
+              </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-12 col-md-12 col-lg-7">
+        <ng-container *ngIf="prof">
+        <div class="card">
+            <div class="card-header">
+              <h4 style="font-weight: bold">Modifier</h4>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="form-group col-md-6 col-12">
+                  <label>cin <span class="text-danger">*</span></label>
+                  <input required type="text" name="cin" [(ngModel)]="prof.cin" class="form-control">
+                </div>
+                <div class="form-group col-md-6 col-12">
+                  <label>nom</label>
+                  <input required type="text" name="nom" [(ngModel)]="prof.nom" class="form-control">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6 col-12">
+                  <label>prénom</label>
+                  <input required type="text" name="prenom" [(ngModel)]="prof.prenom" class="form-control">
+                </div>
+                <div class="form-group col-md-6 col-12">
+                  <label>date de naissance</label>
+                  <input required type="date" name="dateNaissance" [(ngModel)]="prof.dateNaissance" class="form-control">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6 col-12">
+                  <label>adresse</label>
+                  <input required type="text" name="adresse" [(ngModel)]="prof.adresse" class="form-control">
+                </div>
+                <div class="form-group col-md-6 col-12">
+                  <label>téléphone</label>
+                  <input required type="text" name="dateInscription" [(ngModel)]="prof.tele" class="form-control">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6 col-12">
+                  <label>émail</label>
+                  <input required type="text" email name="email" [(ngModel)]="prof.email" class="form-control">
+                </div>
+                <div class="form-group col-md-6 col-12">
+                  <label>diplômes</label>
+                  <input required type="text" name="tele2" [(ngModel)]="prof.diplomes" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="card-footer text-right">
+                <button (click)="updateProf()" style="margin-right: 15px" class="btn btn-primary">modifier</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModel">
+                  supprimer
+                </button>
+              </div>
+            </div>
+        </div>
+      </ng-container>
+      </div>
+    </div>
+  </div>
+</section>

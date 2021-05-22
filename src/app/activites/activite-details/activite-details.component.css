@@ -1,0 +1,60 @@
+.activite_details .list{
+  margin: 20px 0px;
+}
+.remarque{
+  font-weight: normal;
+  border: 1px solid gray;
+  padding: 3px;
+}
+.activite_details .list h4{
+  width: 100%;
+  padding:12px 0px 13px 9px;
+  font-weight: 555;
+  position: relative;
+  margin: 0;
+}
+td>div{
+  font-weight: bold;
+}
+.activite_details .list .add_btn{
+  position: absolute;
+  right: 10px;
+  border-radius: 0;
+  top: 8px;
+  border-radius: 0 !important;
+  box-shadow: none;
+  background: #cecece61;
+  border: 0;
+}
+
+.list-niveaux-matieres h4{
+  background: #e3eaef;
+  width: 100% !important;
+  height: 46px;
+  padding-top: 11px !important;
+  position: relative;
+}
+
+
+.form-group img{
+  width: 150px;
+  height: 150px;
+  margin-left: 20px;
+}
+
+
+.img_td{
+  position: relative;
+  top: -5px;
+}
+
+.ListSeances .btn-success{
+  display: block;
+  text-align: left;
+  border-radius: 0;
+  margin-bottom: 16px;
+  background: #3BB557;
+  border: none;
+  cursor: pointer;
+  box-shadow: none;
+}

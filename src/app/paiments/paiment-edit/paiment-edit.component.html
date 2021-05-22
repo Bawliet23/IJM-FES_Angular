@@ -1,0 +1,103 @@
+<!-- Modal -->
+<div class="modal fade" id="deleteModel" tabindex="-1" role="dialog" aria-labelledby="deleteModel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation !</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous vraiment supprimer le paiement?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" (click)="deletePaiment()" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section create_activite_sec">
+  <div class="section-body">
+    <!-- feedback -->
+    <div *ngIf="error" class="alert alert-danger alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{error}}
+      </div>
+    </div>
+    <div *ngIf="success" class="alert alert-success alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{success}}
+      </div>
+    </div>
+    <!-- feedback -->
+    <ng-container *ngIf="paiment">
+    <h2 class="section-title">la modification du paiement du date {{paiment.datePaiment}}</h2>
+ 
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <form #f="ngForm">
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">montant payé</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="number" name="montantPayee" [(ngModel)]="paiment.montantPayee" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">montant restant</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="number" [(ngModel)]="paiment.montantRestant" name="montantRestant" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">description</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="text" name="description" [(ngModel)]="paiment.description" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">date de paiement</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="date" name="datePaiment" [(ngModel)]="paiment.datePaiment" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">les mois</label>
+                <div class="col-sm-12 col-md-7">
+                  <mat-form-field class="example-full-width form-control" appearance="none" >
+                    <mat-select class="multiSelect" [formControl]="moisSelected" multiple>
+                      <mat-option *ngFor="let m of mois" [value]="m?.nom">{{m?.nom}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+                {{error}}
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
+                <div class="col-sm-12 edit_btns col-md-7">
+                  <button (click)="editPaiment()" type="button" class="btn btn-primary">modifier</button>
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModel">
+                    supprimer
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  </div>
+</div>

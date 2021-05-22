@@ -1,0 +1,13 @@
+.main-sidebar .sidebar-menu li ul.dropdown-menu li a {
+  font-weight: 555;
+}
+
+
+.main-sidebar .sidebar-menu li a {
+  height: 56px;
+  font-size: 14.6px;
+}
+
+.main-sidebar .sidebar-menu li a i {
+  font-size: 14px;
+}

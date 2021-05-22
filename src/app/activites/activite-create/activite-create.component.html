@@ -1,0 +1,90 @@
+<div class="section create_activite_sec">
+  <div class="section-body">
+    <h2 class="section-title">Nouvelle activité</h2>
+    <p class="section-lead">
+      veuillez remplir tous les champs.
+    </p>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <form #f="ngForm" (ngSubmit)="addActivite(f)">
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nom</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="text" name="nom" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Description</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="text" name="description" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Gratuit</label>
+                <div class="col-sm-12 col-md-7">
+                  <select ngModel name="gratuit_id" class="form-control selectric">
+                    <option>oui</option>
+                    <option>non</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Groupe/individuelle</label>
+                <div class="col-sm-12 col-md-7">
+                  <select ngModel name="type" class="form-control selectric">
+                    <option>groupe</option>
+                    <option>individu</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Type de l'étudiant</label>
+                <div class="col-sm-12 col-md-7">
+                  <select ngModel name="typeEtudiant_id" class="form-control selectric">
+                    <option *ngFor="let typeEtudiant of typesEtudiant" [value]="typeEtudiant.nom">{{typeEtudiant.nom}}</option>
+                  </select>
+                </div>
+              </div>
+            
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Matière</label>
+                <div class="col-sm-12 col-md-7">
+                  <select #matiereInput ngModel (change)="changeMatiere(matiereInput.value)" name="matiere_id" class="form-control selectric">
+                    <option *ngFor="let matiere of matieres" [value]="matiere.nom">{{matiere.nom}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Niveau</label>
+                <div class="col-sm-12 col-md-7">
+                  <select ngModel name="niveau_id" class="form-control selectric">
+                    <option *ngFor="let niveau of niveaux" [value]="niveau.nv">{{niveau.nv}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Salle</label>
+                <div class="col-sm-12 col-md-7">
+                  <select ngModel name="salle_id" class="form-control selectric">
+                    <option *ngFor="let salle of salles" [value]="salle.nom">{{salle.nom}}</option>
+                  </select>
+                </div>
+              </div>
+              <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+                {{error}}
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
+                <div class="col-sm-12 col-md-7">
+                  <button type="submit" class="btn btn-primary btn-lg">ajouter</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

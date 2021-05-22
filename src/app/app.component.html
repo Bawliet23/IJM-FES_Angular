@@ -1,0 +1,56 @@
+
+<ng-container
+  *ngIf="isLoggedIn && router.url!='/404'; then authenticate ; else notauthenticated">
+</ng-container>
+
+<ng-template #authenticate id="app">
+  <app-loader></app-loader>
+  <div class="main-wrapper">
+    <div class="navbar-bg"></div>
+    <nav class="navbar navbar-expand-lg main-navbar">
+      <form class="form-inline mr-auto">
+        <ul class="navbar-nav mr-3">
+          <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+          <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
+        </ul>
+        <div style="visibility: hidden" class="search-element">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250">
+          <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+        </div>
+      </form>
+      <ul class="navbar-nav navbar-right">
+        <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+          <img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+          <div class="d-sm-none d-lg-inline-block">Salut, Admin</div></a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-divider"></div>
+            <a *ngIf="isLoggedIn" (click)=handleLogout() href="#" class="dropdown-item has-icon text-danger">
+              <i class="fas fa-sign-out-alt"></i> se déconnecter
+            </a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <app-menu></app-menu>
+    <div class="main-content">
+      <section class="section">
+        <div class="section-header">
+          <h1>{{getCurrentPage()}}</h1>
+        </div>
+      </section>
+      <router-outlet></router-outlet>
+    </div>
+    <footer class="main-footer">
+      <div class="footer-left">
+        Copyright &copy; 2020 <div class="bullet"></div>
+        <a href="https://www.facebook.com/mehdi.tmimi.2017">Mehdi Tmimi  &  </a>
+        <a href="https://www.facebook.com/maroine.khallou">  Maroine Khallou  &  </a>
+        <a href="https://www.facebook.com/khalil.JB05">  Khalil Jabbahi</a>
+      </div>
+    </footer>
+  </div>
+</ng-template>
+
+<ng-template #notauthenticated>
+  <router-outlet></router-outlet>
+</ng-template>

@@ -1,0 +1,115 @@
+.etudiant_details .list{
+  margin: 20px 0px;
+}
+
+.etudiant_details .list h4{
+  width: 35%;
+  padding: 5px 0px 5px 9px;
+  font-weight: 555;
+  margin: 0;
+}
+
+.list-activites h4{
+  width: 100%!important;
+  padding:12px 0px 13px 9px;
+  position: relative;
+  margin: 0;
+  height: 46px;
+  padding-top: 11px !important;
+}
+
+.list-paiments h4{
+  width: 100%!important;
+  padding:12px 0px 13px 9px;
+  position: relative;
+  margin: 0;
+  height: 46px;
+  padding-top: 11px !important;
+}
+
+.list-paiments h5{
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.list-notes h4{
+}
+
+.form-group img{
+  width: 150px;
+  height: 150px;
+  margin-left: 20px;
+}
+
+.etudiant_details .list .add_btn{
+  position: absolute;
+  right: 10px;
+  border-radius: 0;
+  top: 6.5px;
+  border-radius: 0 !important;
+  box-shadow: none;
+  background: #cecece61;
+  border: 0;
+}
+
+.add-activite-form {
+  display: flex;
+}
+
+.add-activite-form input{
+  border-radius: 0;
+}
+
+.add-activite-form button{
+  border-radius: 0;
+  width: 20%;
+  height: 100%;
+}
+
+.list-activites .form-group{
+  transition: opacity .15s linear;
+}
+
+.list-activites h3{
+  font-size: 14px;
+  text-align: center;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  border-radius: 0;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+  border-radius: 0;
+  font-size: 14px;
+  padding: 0 15px 15px 15px !important;
+  height: 48px !important;
+}
+
+.mat-option {
+  height: 62px;
+  margin-bottom: 11px;
+  padding-top: 6px;
+}
+
+.mat-option img{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+
+.mat-option-text {
+  display: inline-block;
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 100%;
+  margin-top: 25px;
+}
+
+

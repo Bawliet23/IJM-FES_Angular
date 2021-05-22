@@ -1,0 +1,40 @@
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+  font-size: 14px;
+  padding: 0 15px 15px 15px !important;
+  height: 50px !important;
+}
+
+.mat-option {
+  height: 62px;
+  margin-bottom: 11px;
+  padding-top: 6px;
+}
+
+.mat-option img{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+
+.mat-option-text {
+  display: inline-block;
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 100%;
+  margin-top: 25px;
+}
+
+.form-group img{
+  width: 150px;
+  height: 150px;
+  margin-left: 20px;
+}

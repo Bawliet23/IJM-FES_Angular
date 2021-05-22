@@ -1,0 +1,107 @@
+<!-- Modal -->
+<div class="modal fade" id="deleteModel" tabindex="-1" role="dialog" aria-labelledby="deleteModel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous vraiment supprimer cet examen ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" (click)="deleteExam()" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section create_activite_sec">
+  <!-- feedback -->
+  <div *ngIf="error" class="alert alert-danger alert-dismissible show fade">
+    <div class="alert-body">
+      <button class="close" data-dismiss="alert">
+        <span>×</span>
+      </button>
+      {{error}}
+    </div>
+  </div>
+
+  <div *ngIf="success" class="alert alert-success alert-dismissible show fade">
+    <div class="alert-body">
+      <button class="close" data-dismiss="alert">
+        <span>×</span>
+      </button>
+      l'examen a été modifié
+    </div>
+  </div>
+  <!-- feedback -->
+  <div class="section-body">
+    <h2 class="section-title">la modification d'examen {{exam.titre}}</h2>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <form #f="ngForm">
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Titre</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="text" name="description" [(ngModel)]="exam.titre" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Année</label>
+                <div class="col-sm-12 col-md-7">
+                  <select   [(ngModel)]="exam.annee.nom" name="annee" class="form-control selectric">
+                    <option *ngFor="let annee of annees" [value]="annee.nom">{{annee.nom}}</option>
+                  </select>
+                </div>
+              </div>
+  
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Matière</label>
+                <div class="col-sm-12 col-md-7">
+                  <select  #matiereInput (change)="changeMatiere(matiereInput.value)"  [(ngModel)]="exam.matiere.nom" name="matiere" class="form-control selectric">
+                    <option *ngFor="let matiere of matieres" [value]="matiere.nom">{{matiere.nom}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Niveau</label>
+                <div class="col-sm-12 col-md-7">
+                  <select [(ngModel)]="exam.niveau.nv" name="niveau" class="form-control selectric">
+                    <option *ngFor="let niveau of niveaux" [value]="niveau.nv">{{niveau.nv}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Fichier</label>
+                <div style="display: flex" class="col-sm-12 col-md-7">
+                  <div id="image-preview" class="image-preview">
+                    <label for="image-upload" id="image-label">Choisir le fichier</label>
+                    <input required type="file" name="file" (change)="onFileChanged($event)" id="image-upload" />
+                  </div>
+                  <h1 *ngIf="filePath!=null"><i class="fas fa-check flag-file"></i></h1>
+                </div>
+              </div>
+              <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+                {{error}}
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
+                <div class="col-sm-12 edit_btns col-md-7">
+                  <button (click)="editExam()" type="button" class="btn btn-primary">modifier</button>
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModel">
+                    supprimer
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

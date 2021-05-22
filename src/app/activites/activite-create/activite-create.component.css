@@ -1,0 +1,9 @@
+.form-control.ng-invalid.ng-touched{
+  border: 1px solid tomato !important;
+}
+
+.alert{
+  width: 62%;
+  margin: 30px auto;
+}
+

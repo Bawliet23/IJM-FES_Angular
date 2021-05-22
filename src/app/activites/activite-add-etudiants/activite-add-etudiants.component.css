@@ -1,0 +1,11 @@
+.photo_td{
+  position: relative;
+  top: 15px;
+}
+
+.custom-control{
+  line-height: 1.15rem;
+  min-height: 1.2em;
+}
+
+

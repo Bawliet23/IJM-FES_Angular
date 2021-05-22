@@ -1,0 +1,116 @@
+.login-sec{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  background-image: url("../../assets/img/back.png");
+  background-repeat: no-repeat;
+  background-size:100%;
+}
+
+.left-sec{
+  width: 50%;
+  background-image: url("../../assets/img/bg-login-page.svg");
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-position: right;
+  height: 100%;
+  position: relative;
+}
+
+.left-sec .left-sec-content {
+  position: absolute;
+  top: 53%;
+  transform: translate(-5%,-50%);
+}
+
+.left-sec .left-sec-content h5{
+  color: #fff;
+  font-family: Intro Inline;
+  font-size: 22px;
+  width: 65%;
+  margin: 0 auto;
+}
+
+.left-sec .left-sec-content img{
+  width: 44%;
+}
+
+.right-sec{
+  width:50%;
+  position: relative;
+}
+
+.right-sec img{
+  width: 35%;
+  margin: 25px 0;
+}
+
+.right-sec .right-sec-content{
+  position: absolute;
+  top: 13%;
+  width: 100%;
+  left: -23px;
+}
+
+.right-sec h1{
+  /*#373739*/
+  width: 39.5%;
+  color: #4A4A4D;
+  font-size: 29px;
+  text-align: left;
+  margin: 18px auto;
+  line-height: 1.5;
+  font-family: 'Fredoka One', cursive;
+}
+.right-sec .form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+.right-sec label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  color: #828282;
+  font-size: 13px;
+  font-weight: 600;
+}
+.right-sec form{
+  width: 39%;
+  margin:auto;
+  margin-top: 50px;
+}
+.right-sec .form-control{
+  height: 45px;
+  padding: 0 15px;
+  font-size: 15px;
+  line-height: 50px;
+  border: none;
+  outline: 0;
+  border: 1px solid #d5d5d582;
+  border-radius: 5px;
+  text-align: left;
+  margin-bottom: 36px;
+}
+.form-control:focus {
+  color: #BBBBBB;
+  background-color: #F7F7FA;
+  border-bottom:1.8px solid #4D84FE;
+  outline: 0;
+  box-shadow:none;
+}
+.right-sec .btn-login {
+  border: none;
+  color: #fff;
+  background: #1C3FAA;
+  font-size: 13px;
+  padding: 8.5px 47px;
+  margin-top: 14px;
+  border-radius: 7px;
+  font-weight: 500;
+  font-family: 'Fredoka One', cursive;
+}
+
+::-webkit-input-placeholder { /* Edge */
+  color: #BBBBBB;
+  font-family: "Open Sans";
+}

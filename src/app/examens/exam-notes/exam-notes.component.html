@@ -1,0 +1,78 @@
+<div class="section create_activite_sec">
+  <div class="section-body">
+    <h2 class="section-title">Les notes de l'examen {{exam.titre}}</h2>
+    <p class="section-lead">
+      veuillez remplir tous les champs.
+    </p>
+    <!-- feedback -->
+    <div *ngIf="error" class="alert alert-danger alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{error}}
+      </div>
+    </div>
+
+    <div *ngIf="success" class="alert alert-success alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        avec succès
+      </div>
+    </div>
+    <!-- feedback -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <tbody>
+                <tr>
+                  <th>photo</th>
+                  <th>nom</th>
+                  <th>Note</th>
+                  <th>Decision</th>
+                  <th>Remarque</th>
+                </tr>
+                <tr *ngFor="let etudiant of etudiants">
+                  <td class="photo_td">
+                    <img height="50px" width="50px" alt="image" [src]="etudiant.etudiant.photo ? etudiantService.url+'/photo/'+etudiant.etudiant.id : 'assets/img/avatar/avatar-4.png'" class="rounded-circle" data-toggle="title" title="">
+                  </td>
+                  <td>
+                    <a href="#">
+                      <div class="d-inline-block ml-1">{{etudiant.etudiant.prenom}} {{etudiant.etudiant.nom}}</div>
+                    </a>
+                  </td>
+                  <td>
+                    <div class="custom-checkbox custom-control">
+                      <input type="text" name="note" [(ngModel)]="etudiant.note" class="form-control">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="custom-checkbox custom-control">
+                      <input type="text" [(ngModel)]="etudiant.decision" name="decision" ngModel class="form-control">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="custom-checkbox custom-control">
+                      <input type="text" [(ngModel)]="etudiant.remarque" name="remarque" ngModel class="form-control">
+                    </div>
+                  </td>
+
+                </tr>
+                </tbody></table>
+            </div>
+            <div class="form-group row mb-12 btn-add">
+              <div class="col-sm-12 col-md-12 float-right">
+                <button (click)="addNotes()" type="submit" class="btn btn-primary">ajouter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

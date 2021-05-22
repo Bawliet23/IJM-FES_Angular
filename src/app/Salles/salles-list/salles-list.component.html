@@ -1,0 +1,141 @@
+<div class="modal fade" id="addSalle" tabindex="-1" role="dialog" aria-labelledby="addSalle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="addSalleLabel">l'ajout d'une salle</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="form-group row mb-4">
+          <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">salle</label>
+          <div class="col-sm-12 col-md-7">
+            <input type="text" #nom name="nom" ngModel class="form-control">
+          </div>
+        </div>
+        <div style="float: right">
+          <button type="button" style="margin-right: 10px" class="btn btn-secondary" data-dismiss="modal">retour</button>
+          <button data-dismiss="modal" (click)="addSalle(nom.value)" type="button" class="btn btn-primary">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal supprimer une salle -->
+<div class="modal fade" id="deleteSalle" tabindex="-1" role="dialog" aria-labelledby="deleteSalle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteSalleLabel">Confirmation ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous vraiment supprimer cette salle ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" (click)="deleteSalle()" data-dismiss="modal" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- model pour afficher les horaires -->
+<div class="modal fade" id="showHor" tabindex="-1" role="dialog" aria-labelledby="showHor" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="showHorLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="list-horaies list">
+          <h4>La liste des horaies de la salle:{{salle_nom}}</h4>
+          <div class="table-responsive">
+            <div *ngFor="let horaire of horaires" class="ListJours">
+              <div class="btn btn-success">{{horaire.jour}}<span class="indicateur float-right"></span></div>
+              <table class="table table-bordered horairesInfos table-md">
+                <tbody>
+                <tr>
+                  <th>horaire</th>
+                  <th>activité</th>
+                  <th>professeur</th>
+                </tr>
+                <tr *ngFor="let h of horaire.horaires">
+                  <td>{{h.startHour}} -{{getEndHour(h.startHour,h.lastHour)}}</td>
+                  <td>{{h.activite}}</td>
+                  <td>{{h.prof}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-secondary">Retour</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="activites_list_sec section">
+  <div class="section-body">
+    <div class="float-right">
+      <form>
+        <div class="input-group">
+          <input type="text" class="form-control search-inpt" #searchInput placeholder="Search">
+          <div class="input-group-append">
+            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <h2 class="section-title">La liste des Salles</h2>
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-striped table-md">
+                <tbody>
+                <tr>
+                  <th>Nom</th>
+                  <th>Description</th>
+                  <th>Horaire</th>
+                  <th>Action</th>
+                  <button data-toggle="modal" data-target="#addSalle" class="btn btn-success">Ajouter +</button>
+                </tr>
+                <tr *ngFor="let salle of salles;let i=index">
+                  <td><span>{{salle.nom}}</span></td>
+                  <td>teeeeest</td>
+                  <td><a href="#" (click)="getHoraires(salle.nom);salle_nom=salle.nom" data-toggle="modal" data-target="#showHor" class="btn btn-primary"><i class="far fa-clock"></i>Show</a></td>
+                  <td><a href="#" (click)="salle_nom=salle.nom;pos=i" data-toggle="modal" data-target="#deleteSalle" class="btn btn-danger">Supprimer</a></td>
+                </tr>
+                </tbody></table>
+            </div>
+          </div>
+          <div class="card-footer text-right">
+            <nav class="d-inline-block">
+              <ul class="pagination mb-0">
+                <li [class]="this.page>0 ? 'page-item' :'page-item  disabled'">
+                  <a (click)="changePage('prev',null)" class="page-link" tabindex="1"><i class="fas fa-chevron-left"></i></a>
+                </li>
+                <li (click)="changePage(null,i)" *ngFor="let p of pages;let i=index" [class]="i==this.page ? 'page-item active' : 'page-item'"><a class="page-link">{{[i+1]}}</a></li>
+                <li [class]="this.page==this.pages?.length-1 ? 'page-item disabled' :'page-item'">
+                  <a (click)="changePage('next',null)" class="page-link"><i class="fas fa-chevron-right"></i></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>

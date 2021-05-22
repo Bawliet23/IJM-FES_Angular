@@ -1,0 +1,343 @@
+<!-- Modal pour supprimer une activite -->
+<div class="modal fade" id="deleteActivite" tabindex="-1" role="dialog" aria-labelledby="deleteActivite" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteActiviteLabel">êtes-vous sûre ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous continuer?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" aria-hidden="true" data-dismiss="modal" (click)="deleteActivite(activiteSelected.id,activiteSelected.type)" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModel" tabindex="-1" role="dialog" aria-labelledby="deleteModel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">êtes-vous sûre ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous continuer?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" aria-hidden="true" data-dismiss="modal" (click)="deleteEtudient()" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="etudiant_details section">
+  <div class="section-body">
+    <!-- feedback -->
+    <div *ngIf="error" class="alert alert-danger alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{error}}
+      </div>
+    </div>
+    <div *ngIf="success" class="alert alert-success alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{success}}
+      </div>
+    </div>
+    <!-- feedback -->
+    <div class="row mt-sm-2">
+      <div class="col-12 col-md-12 col-lg-5">
+        <div class="card profile-widget">
+          <div class="profile-widget-header">
+            <img alt="image" height="100px" [src]="photo ? photo : etudiant.photo ? etudiantService.url+'/photo/'+etudiant.id : 'assets/img/avatar/avatar-4.png'" class="rounded-circle profile-widget-picture">
+            <div class="profile-widget-items">
+              <div class="profile-widget-item">
+                <div class="profile-widget-item-label">Prénom</div>
+                <div class="profile-widget-item-value">{{etudiant?.prenom}}</div>
+              </div>
+              <div class="profile-widget-item">
+                <div class="profile-widget-item-label">Nom</div>
+                <div class="profile-widget-item-value">{{etudiant?.nom}}</div>
+              </div>
+              <div class="profile-widget-item">
+                <div class="profile-widget-item-label">Date de naissance</div>
+                <div class="profile-widget-item-value">{{etudiant?.dateNaissance|date}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="list-notes list">
+            <h4>Présences</h4>
+            <div class="table-responsive">
+              <table style="height: 200px!important;
+              overflow: scroll;
+              display: block;" class="table table-bordered table-md">
+                <tbody><tr>
+                  <th>Date</th>
+                  <th>activité</th>
+                  <th>Description</th>
+                  <th>état</th>
+                  <th>remarque</th>
+                </tr>
+                <ng-container *ngIf="etudiant.preseneces">
+                <tr *ngFor="let pre of etudiant.preseneces">
+                  <!--  {{pre.seance.date.split("T")[1].substr(0, 5)}} --->
+                  <td>{{pre.seance.date.split("T")[0]}}</td>
+                  <td><a href="#" [routerLink]="'/activites/'+pre.seance.activite.id" class="text-primary">{{pre.seance.activite.nom}}</a></td>
+                  <td>{{pre.seance.description}}</td>
+                  <td>
+                    <div *ngIf="pre.absent==true" style="background-color: lightgreen;">présent(e)</div>
+                    <div *ngIf="pre.absent==false" style="background-color: rgb(231, 76, 28);">absent(e)</div>
+                   {{pre.seance.date.split("T")[1].substring(0,5)}}->{{pre.seance.hourEnd}}</td>
+                  <td>{{pre.remarque}}</td>
+                </tr>
+              </ng-container>
+                </tbody></table>
+            </div>
+          </div>
+
+          <div class="list-activites list">
+            <h4>La liste des activités en groupes <button (click)="showAddActiviteFormGroupe=!showAddActiviteFormGroupe;getActivites('groupe')" class="btn btn-secondary add_btn">{{showAddActiviteFormGroupe ? '-' : '+'}}</button></h4>
+            <div *ngIf="showAddActiviteFormGroupe" class="form-group row mb-4">
+              <div class="col-sm-12 add-activite-form col-md-12">
+                <mat-form-field appearance="none" class="example-full-width form-control">
+                  <input type="text"
+                         placeholder=""
+                         aria-label="Number"
+                         matInput
+                         [formControl]="activiteControl"
+                         [matAutocomplete]="auto">
+                  <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                      {{option.nom}}
+                      </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                <button (click)="addActivite('groupe')" class="btn btn-light">ajouter</button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-md">
+                <tbody><tr>
+                  <th>Nom</th>
+                  <th>Matière</th>
+                  <th>niveau</th>
+                  <th>professeur</th>
+                  <th></th>
+                </tr>
+                <tr *ngFor="let activite of etudiant.activitiesGrp;let i=index;">
+                  <td>{{activite.nom}}</td>
+                  <td>{{activite.matiere.nom}}</td>
+                  <td>{{activite.niveau.nv}}</td>
+                  <td>{{activite.prof?.prenom}} {{activite.prof?.nom}}</td>
+                  <td>
+                    <a href="#" [routerLink]="'/activites/'+activite.id" class="text-success">Detail</a>
+                    <a data-toggle="modal" data-target="#deleteActivite" (click)="activiteSelected.id=activite.id;activiteSelected.index=i;activiteSelected.type='groupe'" style="margin-left: 8px;cursor: pointer" class="text-danger">Supprimer</a>
+                  </td>
+                </tr>
+                </tbody></table>
+            </div>
+          </div>
+          <div class="list-activites list">
+            <h4>La liste des activités individuelles <button (click)="showAddActiviteFormIndv=!showAddActiviteFormIndv;getActivites('individu')" class="btn btn-secondary add_btn">{{showAddActiviteFormIndv ? '-' : '+'}}</button></h4>
+            <div *ngIf="showAddActiviteFormIndv" class="form-group row mb-4">
+              <div class="col-sm-12 add-activite-form col-md-12">
+                <mat-form-field appearance="none" class="example-full-width form-control">
+                  <input type="text"
+                         placeholder=""
+                         aria-label="Number"
+                         matInput
+                         [formControl]="activiteControl"
+                         [matAutocomplete]="auto">
+                  <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                      {{option.nom}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                <button (click)="addActivite('individu')" class="btn btn-light">ajouter</button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-md">
+                <tbody><tr>
+                  <th>Nom</th>
+                  <th>Matière</th>
+                  <th>niveau</th>
+                  <th>professeur</th>
+                  <th></th>
+                </tr>
+                <tr *ngFor="let activite of etudiant.activitiesIndv;let i=index;">
+                  <td>{{activite?.nom}}</td>
+                  <td>{{activite?.matiere.nom}}</td>
+                  <td>{{activite?.niveau.nv}}</td>
+                  <td>{{activite?.prof?.prenom}} {{activite?.prof?.nom}}</td>
+                  <td>
+                    <a href="#" [routerLink]="'/activites/'+activite.id" class="text-success">Detail</a>
+                    <a data-toggle="modal" data-target="#deleteActivite" (click)="activiteSelected.id=activite.id;activiteSelected.index=i;activiteSelected.type='individu'" style="margin-left: 8px;cursor: pointer" class="text-danger">Supprimer</a>
+                  </td>
+                </tr>
+                </tbody></table>
+            </div>
+          </div>
+          <div class="list-paiments list">
+            <h4>La liste des paiements <a href="#" routerLink="/paiments/create" class="btn btn-secondary add_btn">+</a></h4>
+            <div class="table-responsive">
+              <table class="table table-bordered table-md">
+                <tbody><tr>
+                  <th>Date</th>
+                  <th>montant payé/ montant restant</th>
+                  <th>l'activité</th>
+                  <th>List des mois</th>
+                </tr>
+                <tr *ngFor="let paiment of etudiant.paiments">
+                  <td>{{paiment.datePaiment| date: 'dd/MM/yyyy'}}</td>
+                  <td>{{paiment.montantPayee}}/{{paiment.montantRestant}}</td>
+                  <td>{{paiment.activite_nom}}</td>
+                  <td><h5 class="text-primary" *ngFor="let mois of paiment.mois">{{mois.nom}} {{mois.annee.nom}}</h5></td>
+                </tr>
+                </tbody></table>
+            </div>
+          </div>
+          <div class="list-notes list">
+            <h4>La liste des notes</h4>
+            <div class="table-responsive">
+              <table class="table table-bordered table-md">
+                <tbody><tr>
+                  <th>Année</th>
+                  <th>Matière/Niveau</th>
+                  <th>note</th>
+                </tr>
+                <tr *ngFor="let note of etudiant.notes">
+                  <td>{{note.exam.annee.nom}}</td>
+                  <td>{{note.exam.ligneNvMatiere.matiere.nom}}/{{note.exam.ligneNvMatiere.niveau.nv}}</td>
+                  <td>{{note.note}}</td>
+                </tr>
+                </tbody></table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-12 col-lg-7">
+        <div class="card">
+          <form method="post" class="needs-validation" novalidate="">
+            <div class="card-header">
+              <h4 style="font-weight: bold">Modifier</h4>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="form-group col-md-6 col-12">
+                  <label>Numéro</label>
+                  <input required type="number" name="numero" [(ngModel)]="etudiant.numero" class="form-control">
+                </div>
+                <div class="form-group col-md-6 col-12">
+                  <label>Nom</label>
+                  <input required type="text" name="nom" [(ngModel)]="etudiant.nom" class="form-control">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6 col-12">
+                  <label>النسب</label>
+                  <input required type="text" name="nomArabe" [(ngModel)]="etudiant.nomArabe" class="form-control">
+                </div>
+                <div class="form-group col-md-6 col-12">
+                  <label>prénom</label>
+                  <input required type="text" name="prenom" [(ngModel)]="etudiant.prenom" class="form-control">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6 col-12">
+                  <label>الاسم</label>
+                  <input required type="text" name="prenomArabe" [(ngModel)]="etudiant.prenomArabe" class="form-control">
+                </div>
+                <div class="form-group col-md-6 col-12">
+                  <label>date de naissance</label>
+                  <input required type="date" name="dateNaissance" [(ngModel)]="etudiant.dateNaissance" class="form-control">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6 col-12">
+                  <label>adresse</label>
+                  <input required type="text" name="adresse" [(ngModel)]="etudiant.adresse" class="form-control">
+                </div>
+                <div class="form-group col-md-6 col-12">
+                  <label>dateInscription</label>
+                  <input required type="date" name="dateInscription" [(ngModel)]="etudiant.dateInscription" class="form-control">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6 col-12">
+                  <label>métier</label>
+                  <input required type="text" name="metier" [(ngModel)]="etudiant.metier" class="form-control">
+                </div>
+                <div class="form-group col-md-6 col-12">
+                  <label>remarque</label>
+                  <input required type="text" name="remarque" [(ngModel)]="etudiant.remarque" class="form-control">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6 col-12">
+                  <label>téléphone 1</label>
+                  <input required type="text" name="tele1" [(ngModel)]="etudiant.tele1" class="form-control">
+                </div>
+                <div class="form-group col-md-6 col-12">
+                  <label>téléphone 2</label>
+                  <input required type="text" name="tele2" [(ngModel)]="etudiant.tele2" ngModel class="form-control">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-12 col-12">
+                  <label>metier</label>
+                  <ng-container *ngIf="etudiant.type">
+                    <input required type="text" name="metier" [(ngModel)]="etudiant.metier" ngModel class="form-control">
+                  </ng-container>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-12 col-12">
+                  <label>type</label>
+                  <ng-container *ngIf="etudiant.type">
+                  <select name="type" [(ngModel)]="etudiant.type.nom" class="form-control selectric">
+                    <option value="majeur">majeur</option>
+                    <option value="mineur">mineur</option>
+                  </select>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="row">
+                <div style="display: flex" class="form-group col-md-12 col-12">
+                  <div  id="image-preview" class="image-preview">
+                    <label for="image-upload" id="image-label">Choisir une image</label>
+                    <input required type="file" accept="image/*" name="photo" (change)="onFileChanged($event)" id="image-upload" />
+                  </div>
+                  <img *ngIf="imgURL" [src]="imgURL"/>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer text-right">
+              <button (click)="updateEtudiant()" style="margin-right: 15px" class="btn btn-primary">modifier</button>
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModel">
+                supprimer
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

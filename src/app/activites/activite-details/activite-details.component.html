@@ -1,0 +1,313 @@
+<!-- Modal pour afficher presences -->
+<div style="display: block" *ngIf="showPresence" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="examplezModaslLabel">Séance {{infoModal}}</h2>
+        <button (click)="showPresence=false;presence=null" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        
+      </div>
+      <div class="modal-body">
+        <h3><b>Remarque:</b> {{remarqueModal}}</h3>
+        <div class="table-responsive">
+          <table class="table table-bordered table-md">
+            <tbody>
+            <tr>
+              <th>les présents</th>
+              <th>les absents</th>
+            </tr>
+            <tr>
+              <td>
+                <div *ngFor="let etA of presence.EtudiantsAbsent">
+                  <a href="#" [routerLink]="'/etudiants/'+etA.etudiant.id" class="text-primary">
+                    {{etA.etudiant.prenom+' '+etA.etudiant.nom}}
+                  </a></div>
+              </td>
+              <ng-container *ngIf="presence">
+              <td>
+                <div *ngFor="let etP of presence.EtudiantPresent">
+                  <a href="#" [routerLink]="'/etudiants/'+etP.etudiant.id" class="text-primary">
+                  {{etP.etudiant.prenom+' '+etP.etudiant.nom}}
+                  </a></div>
+              </td>
+            </ng-container>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="showPresence=false;presence=null" class="btn btn-secondary" data-dismiss="modal">retour</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModel" tabindex="-1" role="dialog" aria-labelledby="deleteModel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">êtes-vous sûre ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous continuer?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" (click)="deleteActivite()" data-dismiss="modal" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Supprimer Etudiant -->
+<div class="modal fade" id="SupprimerEtudiantModel" tabindex="-1" role="dialog" aria-labelledby="SupprimerEtudiantModel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="SupprimerEtudiantModelLabel">êtes-vous sûre ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous continuer?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">non</button>
+        <button type="button" (click)="deleteEtudiant()" data-dismiss="modal" class="btn btn-danger">oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="activite_details section">
+  <div class="section-body">
+    <!-- feedback -->
+    <div *ngIf="error" class="alert alert-danger alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{error}}
+      </div>
+    </div>
+    <div *ngIf="success" class="alert alert-success alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{success}}
+      </div>
+    </div>
+    <!-- feedback -->
+    <div class="row mt-sm-2">
+      <div class="col-12 col-md-12 col-lg-5">
+        <div class="card profile-widget">
+          <div class="profile-widget-header">
+            <div class="profile-widget-items">
+              <div class="profile-widget-item">
+                <div class="profile-widget-item-label">Description</div>
+                <div class="profile-widget-item-value">{{activite?.description}}</div>
+              </div>
+              <div class="profile-widget-item">
+                <div class="profile-widget-item-label">Salle</div>
+                <div *ngIf="activite?.salle!=null" class="profile-widget-item-value">{{activite?.salle?.nom}}</div>
+                <div *ngIf="activite?.salle==null">
+                  <div class="badge badge-danger">ajouter</div>
+                </div>
+              </div>
+              <div class="profile-widget-item">
+                <div class="profile-widget-item-label">Type</div>
+                <div class="profile-widget-item-value">{{activite?.type}}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-horaries list">
+            <h4>La liste des horaies
+              <button [routerLink]="['horaires/add']" class="btn btn-secondary add_btn">+</button>
+            </h4>
+            <div class="table-responsive">
+              <table class="table table-bordered table-md">
+                <tbody>
+                <tr>
+                  <th>jour</th>
+                  <th>Horaires</th>
+                </tr>
+                <tr *ngFor="let horaire of activite?.horaires">
+                  <td>{{horaire.jour}}</td>
+                  <td>{{horaire.startHour}}-{{add30Min(horaire.lastHour)}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="list-etudiants list">
+            <h4>la liste des étudiants
+              <button [routerLink]="['etudiants/add']" class="btn btn-secondary add_btn">+</button>
+            </h4>
+            <div class="table-responsive">
+              <table class="table table-bordered table-md">
+                <tbody>
+                <tr>
+                  <th>#</th>
+                  <th>photo/nom</th>
+                  <th>date de naissance</th>
+                  <th class="text-center">action</th>
+                </tr>
+                <tr *ngFor="let etudiant of etudiants">
+                  <td>{{etudiant?.numero}}</td>
+                  <td *ngIf="etudiant" class="img_td">
+                    <img height="35px" width="35px" alt="image"
+                         [src]="etudiant?.photo ? etudiantService.url+'/photo/'+etudiant.id : 'assets/img/avatar/avatar-4.png'"
+                         class="rounded-circle" data-toggle="title" title="">
+                    <div class="d-inline-block ml-1">{{etudiant.nom }} {{etudiant.prenom}}</div>
+                  </td>
+                  <td>{{etudiant?.dateNaissance}}</td>
+                  <td *ngIf="etudiant">
+                    <a [routerLink]="'/etudiants/'+[etudiant.id]" href="#" class="text-success">Details</a>
+                    <a (click)="etudiantSelected=etudiant.id" style="margin-left: 8px;cursor: pointer"   data-toggle="modal" data-target="#SupprimerEtudiantModel" class="text-danger">supprimer</a>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="list-prof list">
+            <h4>Professeur
+              <button [routerLink]="['horaires/add']" *ngIf="activite?.prof==null" class="btn btn-secondary add_btn">+</button>
+            </h4>
+            <div class="table-responsive">
+              <table class="table table-bordered table-md">
+                <tbody>
+                <tr>
+                  <th>Cin</th>
+                  <th>Nom complet</th>
+                  <th>Adresse</th>
+                  <th>Téléphone</th>
+                  <th>action</th>
+                </tr>
+                <tr *ngIf="activite?.prof">
+                  <td>{{activite.prof.cin}}</td>
+                  <td>{{activite.prof.prenom}} {{activite.prof.nom}}</td>
+                  <td>{{activite.prof.adresse}}</td>
+                  <td>{{activite.prof.tele}}</td>
+                  <td><a [routerLink]="'/professeurs/'+activite.prof.cin" href="#" class="text-success">Detail</a></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="list-matieres list">
+            <h4>Matière
+              <button *ngIf="activite?.matiere==null" class="btn btn-secondary add_btn">+</button>
+            </h4>
+            <div class="table-responsive">
+              <table class="table table-bordered table-md">
+                <tbody>
+                <tr>
+                  <th>Photo/nom</th>
+                  <th>Description</th>
+                  <th>Prix pour les adultes</th>
+                  <th>prix pour les enfants</th>
+                </tr>
+                <tr *ngIf="activite?.matiere">
+                  <td class="img_td">
+                    <a href="#" [routerLink]="'/matieres/'+activite.matiere.nom" class="text-primary">
+                    <img height="35px" width="35px" alt="image" [src]="photo"
+                         class="rounded-circle" data-toggle="title" title="">
+                    <div class="d-inline-block ml-1">{{activite.matiere.nom}}</div>
+                    </a>
+                  </td>
+                  <td>{{activite.matiere.description}}</td>
+                  <td>{{activite.matiere.prixAdult}}</td>
+                  <td>{{activite.matiere.prixEnfant}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="list-seances list">
+            <h4>Les Séances
+              <button *ngIf="activite?.matiere==null" class="btn btn-secondary add_btn">+</button>
+            </h4>
+            <div class="table-responsive">
+              <div *ngFor="let seance of seances;let i=index" class="ListSeances">
+                <div (click)="seanceClick(seance,activite)" class="btn btn-success">{{seance.date.split("T")[0]}}<span class="indicateur float-right">+</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-12 col-lg-7">
+        <ng-container *ngIf="activite">
+        <div class="card">
+          <div class="card-header">
+            <h4 style="font-weight: bold">Modifier</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-md-6 col-12">
+                <label>nom</label>
+                <input type="text" name="nom" [(ngModel)]="activite.nom" class="form-control">
+              </div>
+              <div class="form-group col-md-6 col-12">
+                <label>description</label>
+                <input required type="text" name="description" [(ngModel)]="activite.description" class="form-control">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6 col-12">
+                <label>gratuit</label>
+                <select [(ngModel)]="activite.gratuit" name="gratuit_id" class="form-control selectric">
+                  <option [value]="true">oui</option>
+                  <option [value]="false">non</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6 col-12">
+                <label>Type des étudiants</label>
+                <select [(ngModel)]="activite.typeEtudiant.nom" name="typeEtudiant" class="form-control selectric">
+                  <option *ngFor="let typeEtudiant of typesEtudiant"
+                          [value]="typeEtudiant.nom">{{typeEtudiant.nom}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6 col-12">
+                <label>matière</label>
+                <select #matiereInput (change)="chargerNiveau(matiereInput.value)" [(ngModel)]="activite.matiere.nom" name="matiere" class="form-control selectric">
+                  <option *ngFor="let matiere of matieres" [value]="matiere.nom">{{matiere.nom}}</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6 col-12">
+                <label>niveau</label>
+                <select [(ngModel)]="activite.niveau.nv" name="niveau" class="form-control selectric">
+                  <option *ngFor="let niveau of niveaux" [value]="niveau.nv">{{niveau.nv}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-12 col-12">
+                <label>salle</label>
+                <select [(ngModel)]="activite.salle.nom" name="matiere" class="form-control selectric">
+                  <option *ngFor="let salle of salles" [value]="salle.nom">{{salle.nom}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="card-footer text-right">
+              <button (click)="updateActivite()" style="margin-right: 15px" class="btn btn-primary">modifier</button>
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModel">
+                supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,23 @@
+<div class="login-sec">
+  <div class="left-sec">
+    <div class="left-sec-content text-center">
+      <h5>Institut Jamai de la Musique et d'Art Chorégraphique Fès</h5>
+      <img src="assets/img/artImg.png">
+    </div>
+  </div>
+  <div class="right-sec">
+    <div class="right-sec-content text-center">
+      <img style="" src="assets/img/logo.png">
+      <form>
+        <div class="form-group">
+          <input placeholder="username" type="text" [(ngModel)]="username" class="form-control " name="username" required autocomplete="username" autofocus>
+        </div>
+        <div class="form-group">
+          <input placeholder="password" type="password" [(ngModel)]="password" class="form-control" name="password" required autocomplete="current-password">
+        </div>
+        <h4 class="text-danger" *ngIf='invalidLogin'>{{errorMessage}}</h4>
+        <button type="button" (click)=handleLogin() class="btn btn-login">Login</button>
+      </form>
+    </div>
+  </div>
+</div>

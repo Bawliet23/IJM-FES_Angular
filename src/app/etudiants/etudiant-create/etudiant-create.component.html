@@ -1,0 +1,141 @@
+<div *ngIf="success" style="display: block" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span (click)="okClick()" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div style="    text-align: center;" class="modal-body">
+        <div class="alert_success">
+          <div class="card">
+            <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+              <i class="checkmark">✓</i>
+            </div>
+            <h1>Le mot de pass</h1>
+            <p>{{pass}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section create_etudiant_sec">
+  <div class="section-body">
+    <h2 class="section-title">Nouveau étudiant</h2>
+    <p class="section-lead">
+      veuillez remplir tous les champs.
+    </p>
+    <div class="row">
+      <div class="col-12">
+        <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+          {{error}}
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <form  #f="ngForm" enctype="multipart/form-data" (ngSubmit)="addEtudiant(f)">
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Numéro</label>
+                <div class="col-sm-12 col-md-7">
+                  <input required type="number" name="numero" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nom</label>
+                <div class="col-sm-12 col-md-7">
+                  <input required type="text" name="nom" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">النسب</label>
+                <div class="col-sm-12 col-md-7">
+                  <input required type="text" name="nomArabe" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Prènom</label>
+                <div class="col-sm-12 col-md-7">
+                  <input required type="text" name="prenom" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">الاسم</label>
+                <div class="col-sm-12 col-md-7">
+                  <input required type="text" name="prenomArabe" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Photo</label>
+                <div style="display: flex" class="col-sm-12 col-md-7">
+                  <div id="image-preview" class="image-preview">
+                    <label for="image-upload" id="image-label">Choisir une photo</label>
+                    <input  type="file" accept="image/*" name="photo" (change)="onFileChanged($event)" id="image-upload" />
+                  </div>
+                  <img *ngIf="imgURL" [src]="imgURL"/>
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Date de naissance</label>
+                <div class="col-sm-12 col-md-7">
+                  <input required type="date" name="dateNaissance" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">adresse</label>
+                <div class="col-sm-12 col-md-7">
+                  <input required type="text" name="adresse" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">tele1</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="text" name="tele1" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">tele2</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="text" name="tele2" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">métier</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="text" name="metier" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">dateInscription</label>
+                <div class="col-sm-12 col-md-7">
+                  <input required type="date" name="dateInscription" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Type</label>
+                <div class="col-sm-12 col-md-7">
+                  <select name="type_id" ngModel class="form-control selectric">
+                    <option value="majeur">majeur</option>
+                    <option value="mineur">mineur</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">remarque</label>
+                <div class="col-sm-12 col-md-7">
+                  <input required type="text" name="remarque" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
+                <div class="col-sm-12 col-md-7">
+                  <button type="submit" class="btn btn-primary">ajouter</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<section class="activites_list_sec section">
+  <div class="section-body">
+    <div class="float-right">
+      <form>
+        <div class="input-group">
+          <input type="text" class="form-control search-inpt" #searchInput placeholder="Search">
+          <div class="input-group-append">
+            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <h2 class="section-title">La liste des Activités</h2>
+    <p class="section-lead">Cliquez sur details pour plus d'information. </p>
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-striped table-md">
+                <tbody>
+                <tr>
+                  <th>#</th>
+                  <th>nom</th>
+                  <th>matière/niveau</th>
+                  <th>professeur</th>
+                  <th>durée</th>
+                  <th>Horaire</th>
+                  <th>Action</th>
+                </tr>
+                <tr *ngFor="let activite of activites">
+                  <td>{{activite.id}}</td>
+                  <td>{{activite.nom}}</td>
+                  <td>
+                    {{activite.matiere.nom}}/{{activite.niveau.nv}}</td>
+                  <td *ngIf="activite.prof!=null">
+                    <a [routerLink]="'/professeurs/'+activite.prof.cin" href="#" >
+                      <div class="badge badge-secondary">
+                    {{activite.prof.prenom}} {{activite.prof.nom}}</div></a></td>
+                  <td *ngIf="activite.prof==null"><div class="badge badge-danger">aucun professeur</div></td>
+                  <td *ngIf="activite.horaires!=null">{{countDuree(activite?.horaires[0]?.lastHour,activite?.horaires[0]?.startHour,activite?.horaires[0].jour)}}</td>
+                  <td *ngIf="activite.horaires==null"><div class="badge badge-warning">pas encore réglé</div></td>
+                  <td><a href="#" [routerLink]="activite.id+'/horaires/add'" class="btn btn-primary"><i class="far fa-clock"></i> Modifier </a></td>
+                  <td><a [routerLink]="activite.id" href="#" class="btn btn-success">Détails</a></td>
+                </tr>
+                </tbody></table>
+            </div>
+          </div>
+          <div class="card-footer text-right">
+            <nav class="d-inline-block">
+              <ul class="pagination mb-0">
+                <li [class]="this.page>0 ? 'page-item' :'page-item  disabled'">
+                  <a (click)="changePage('prev',null)" class="page-link" tabindex="1"><i class="fas fa-chevron-left"></i></a>
+                </li>
+                <li (click)="changePage(null,i)" *ngFor="let p of pages;let i=index" [class]="i==this.page ? 'page-item active' : 'page-item'"><a class="page-link">{{[i+1]}}</a></li>
+                <li [class]="this.page==this.pages?.length-1 ? 'page-item disabled' :'page-item'">
+                  <a (click)="changePage('next',null)" class="page-link"><i class="fas fa-chevron-right"></i></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>

@@ -1,0 +1,104 @@
+<div class="section create_activite_sec">
+  <div class="section-body">
+    <h2 class="section-title">Nouveau paiement</h2>
+    <p class="section-lead">
+      Veuillez remplir tous les champs.
+    </p>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <form #f="ngForm" (ngSubmit)="addPaiment(f)">
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Activité</label>
+                <div class="col-sm-12 col-md-7">
+                  <mat-form-field appearance="none" class="example-full-width form-control">
+                    <input type="text"
+                           placeholder=""
+                           aria-label="Number"
+                           matInput
+                           [formControl]="activiteControl"
+                           [matAutocomplete]="auto">
+                    <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+                      <mat-option (onSelectionChange)="getEtudiantsByType($event, option.typeEtudiant)" *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option.nom}}
+                        <span class="text-primary">{{option.type}}</span>
+                        (
+                          <span class="text-warning">prixEnfant : {{option.prixEnfant}} /</span> <span class="text-warning">prixAdult : {{option.prixAdult}}</span>/
+                          <span class="text-warning">{{option.gratuit ? 'gratuit' : 'payant'}}</span>
+                        )
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Étudiant</label>
+                <div class="col-sm-12 col-md-7">
+                  <mat-form-field appearance="none" class="example-full-width form-control">
+                    <input type="text"
+                           placeholder=""
+                           aria-label="Number"
+                           matInput
+                           [formControl]="etudiantControl"
+                           [matAutocomplete]="autoEtudiant">
+                    <mat-autocomplete [displayWith]="displayFnEtudiant" #autoEtudiant="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredOptionsEtudiants | async" [value]="option">
+                        <img [src]="option.photo ? etudiantService.url+'/photo/'+option.id : 'assets/img/avatar/avatar-4.png'">
+                        {{option.prenom+' '+option.nom}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Montant payé</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="number" required name="montantPayee" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Montant Restant</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="number" required name="montantRestant" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Description</label>
+                <div class="col-sm-12 col-md-7">
+                  <input type="text" name="description" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Date de Paiment</label>
+                <div class="col-sm-12 col-md-7">
+                  <input (change)="getMois($event)" required type="date" name="datePaiment" ngModel class="form-control">
+                </div>
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">les mois</label>
+                <div class="col-sm-12 col-md-7">
+                  <mat-form-field class="example-full-width form-control" appearance="none" >
+                    <mat-select class="multiSelect"  [formControl]="moisSelected" multiple>
+                      <mat-option *ngFor="let m of mois" [value]="m?.nom">{{m?.nom}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+                {{error}}
+              </div>
+              <div class="form-group row mb-4">
+                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
+                <div class="col-sm-12 col-md-7">
+                  <button type="submit" class="btn btn-primary">ajouter</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
