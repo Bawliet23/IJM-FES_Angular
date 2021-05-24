@@ -14,7 +14,7 @@ export class HttpInterceptorService {
     if (this.authenticationService.isUserLoggedIn() && req.url.indexOf('basicauth') === -1) {
       const authReq = req.clone({
         headers: new HttpHeaders({
-          'Authorization': sessionStorage.getItem("basicauth")
+          'Authorization': localStorage.getItem("basicauth")
         })
       });
       return next.handle(authReq);

@@ -39,21 +39,21 @@ export class AuthService {
   }
 
   registerSuccessfulLogin(username, password) {
-    sessionStorage.setItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME, username)
+    localStorage.setItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME, username)
     let authString = 'Basic ' + btoa(username + ':' + password);
-    sessionStorage.setItem('basicauth', authString);
+    localStorage.setItem('basicauth', authString);
   }
 
   logout() {
-    sessionStorage.removeItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME);
-    sessionStorage.removeItem("basicauth");
+    localStorage.removeItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME);
+    localStorage.removeItem("basicauth");
     this.username = null;
     this.password = null;
     this.UserLogged.next(false);
   }
 
   isUserLoggedIn() {
-    let user = sessionStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME)
+    let user = localStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME)
     if (user === null) {
       this.UserLogged.next(false);
       return false
@@ -63,7 +63,7 @@ export class AuthService {
   }
 
   getLoggedInUserName() {
-    let user = sessionStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME)
+    let user = localStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME)
     if (user === null) return ''
     return user
   }
